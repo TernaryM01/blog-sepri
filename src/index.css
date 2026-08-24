@@ -22,3 +22,17 @@ body {
     #2e2e2e 83px
   );
 }
+
+@keyframes dragHintPulse {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(-8px);
+  }
+}
+
+.animate-drag-hint {
+  animation: dragHintPulse 1.6s ease-in-out infinite;
+}
+

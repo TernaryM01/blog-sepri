@@ -9,7 +9,7 @@ function App() {
     >
       <div
         id="Body"
-        className="w-full max-w-[1280px] min-h-screen bg-[#cbefe6] outline-[4px] outline-black/25 flex flex-col items-center justify-start relative flex-1 self-stretch"
+        className="w-full max-w-[1280px] min-h-screen bg-[#cbefe6] outline-[4px] outline-black/25 flex flex-col items-center justify-start relative flex-1 self-stretch overflow-x-clip"
       >
         <Hero />
         <Blog />
