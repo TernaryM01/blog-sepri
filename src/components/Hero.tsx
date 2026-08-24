@@ -59,6 +59,8 @@ export function Hero() {
     moved: false,
   })
 
+  const playgroundSlotRef = useRef<HTMLDivElement>(null)
+
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId)
     dragStartRef.current = {
@@ -327,13 +329,16 @@ export function Hero() {
             {/* Playground Content Area */}
             <div
               id="Playground"
-              className="absolute left-[38px] top-[20px] w-[753px] h-[506px] bg-[#00d9ff] shadow-[inset_6px_6px_0px_2px_rgba(0,0,0,0.25)] overflow-hidden"
+              ref={playgroundSlotRef}
+              className="absolute left-[38px] top-[20px] w-[753px] h-[506px] overflow-hidden"
             >
-              <PlaygroundPhysics />
+              {/* Reference slot for physics walls tracking */}
             </div>
           </div>
         </div>
       </div>
+      {/* Fixed Viewport Physics Canvas */}
+      <PlaygroundPhysics targetRef={playgroundSlotRef} />
     </div>
   )
 }
