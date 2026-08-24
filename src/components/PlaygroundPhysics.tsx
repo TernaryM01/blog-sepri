@@ -23,11 +23,13 @@ export const DEFAULT_DAMPING = 0.9
 
 interface PlaygroundPhysicsProps {
   targetRef: React.RefObject<HTMLDivElement | null>
+  containerRef?: React.RefObject<HTMLElement | null>
   damping?: number
 }
 
 export function PlaygroundPhysics({
   targetRef,
+  containerRef,
   damping = DEFAULT_DAMPING,
 }: PlaygroundPhysicsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -348,8 +350,21 @@ export function PlaygroundPhysics({
       if (ctx) {
         ctx.clearRect(0, 0, screenWidth, screenHeight)
 
-        // Clip rendering to the playground container bounds
         ctx.save()
+
+        // Clip rendering to the Body container bounds (matches Body overflow-x-clip)
+        const containerEl =
+          containerRef?.current ||
+          targetRef.current?.closest('#Body') ||
+          document.getElementById('Body')
+        if (containerEl) {
+          const containerRect = containerEl.getBoundingClientRect()
+          ctx.beginPath()
+          ctx.rect(containerRect.left, 0, containerRect.width, screenHeight)
+          ctx.clip()
+        }
+
+        // Clip rendering to the playground container bounds
         ctx.beginPath()
         ctx.rect(currentWallX, currentWallY, BOX_WIDTH, BOX_HEIGHT)
         ctx.clip()
@@ -438,7 +453,7 @@ export function PlaygroundPhysics({
       Engine.clear(engine)
       Composite.clear(world, false)
     }
-  }, [targetRef, damping])
+  }, [targetRef, containerRef, damping])
 
   return (
     <canvas
