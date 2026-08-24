@@ -36,3 +36,84 @@ body {
   animation: dragHintPulse 1.6s ease-in-out infinite;
 }
 
+/* Breathing & Ambient Animations */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 4.5s ease-in-out infinite;
+}
+
+@keyframes balloonBreathe {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.2deg);
+  }
+}
+
+.animate-balloon-breathe {
+  animation: balloonBreathe 3.8s ease-in-out infinite;
+}
+
+@keyframes signSway {
+  0%, 100% {
+    transform: rotate(4deg);
+  }
+  50% {
+    transform: rotate(-1.5deg);
+  }
+}
+
+.animate-sign-sway {
+  transform-origin: top center;
+  animation: signSway 5.5s ease-in-out infinite;
+}
+
+@keyframes photoDrift1 {
+  0%, 100% {
+    transform: translateX(-120px) translateY(-10px) rotate(-6deg);
+  }
+  50% {
+    transform: translateX(-120px) translateY(-16px) rotate(-4.5deg);
+  }
+}
+
+.animate-photo-drift-1 {
+  animation: photoDrift1 5s ease-in-out infinite;
+}
+
+@keyframes photoDrift2 {
+  0%, 100% {
+    transform: translateX(120px) translateY(15px) rotate(6deg);
+  }
+  50% {
+    transform: translateX(120px) translateY(9px) rotate(7.5deg);
+  }
+}
+
+.animate-photo-drift-2 {
+  animation: photoDrift2 5.5s ease-in-out infinite 0.6s;
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
+
+

@@ -134,28 +134,29 @@ export function Hero() {
         className="relative h-full flex flex-col items-center justify-start flex-1 self-stretch"
       >
         {/* Logo */}
-        <div
+        <a
           id="Logo"
-          className="flex flex-row items-center gap-[25px]"
+          href="#"
+          className="flex flex-row items-center gap-[25px] cursor-pointer group no-underline transition-transform duration-300 hover:scale-105 active:scale-95"
         >
           <img
             id="Logo-Icon"
             src={logoIcon}
             alt="Logo Icon"
-            className="w-[105px] h-[105px] shrink-0"
+            className="w-[105px] h-[105px] shrink-0 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110"
           />
           <span
             id="Logo-Text"
-            className="font-['Solway'] text-[40px] font-normal leading-[1.2] text-black text-center select-none"
+            className="font-['Solway'] text-[40px] font-normal leading-[1.2] text-black text-center select-none transition-colors duration-300 group-hover:text-[#185347]"
           >
             Sepri’s Lab
           </span>
-        </div>
+        </a>
 
         {/* Hero Char */}
         <div
           id="Hero-Char"
-          className="relative w-[284px] h-[499px] shrink-0 self-stretch mx-auto mt-0"
+          className="relative w-[284px] h-[499px] shrink-0 self-stretch mx-auto mt-0 animate-float-gentle"
         >
           {/* Char Picture */}
           <img
@@ -168,7 +169,7 @@ export function Hero() {
           {/* Hero Balloon */}
           <div
             id="Hero-Balloon"
-            className="absolute left-[16px] top-[321px] w-[252px] h-[178px]"
+            className="absolute left-[16px] top-[321px] w-[252px] h-[178px] animate-balloon-breathe transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           >
             {/* Balloon */}
             <img
@@ -221,7 +222,7 @@ export function Hero() {
                 id={link.id}
                 href={link.href}
                 onMouseEnter={(e) => handleLinkMouseEnter(e, link.href)}
-                className={`relative z-10 font-['Solway'] text-[20px] font-normal leading-[1.2] h-[24px] no-underline select-none transition-colors duration-200 ${
+                className={`relative z-10 font-['Solway'] text-[20px] font-normal leading-[1.2] h-[24px] no-underline select-none transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 active:scale-90 cursor-pointer ${
                   isHovered ? 'text-white' : 'text-black'
                 }`}
               >
@@ -243,14 +244,14 @@ export function Hero() {
           >
             {/* Background Decorative Photo Cards */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
-              <div className="w-[190px] h-[230px] bg-white rounded-xl shadow-md border border-black/10 -rotate-6 translate-x-[-120px] translate-y-[-10px] p-3 flex flex-col items-center">
-                <div className="w-full h-[150px] bg-[#a8e0d1] rounded-lg flex items-center justify-center text-3xl">
+              <div className="w-[190px] h-[230px] bg-white rounded-xl shadow-md border border-black/10 p-3 flex flex-col items-center animate-photo-drift-1 transition-transform duration-300 hover:scale-105 pointer-events-auto cursor-pointer">
+                <div className="w-full h-[150px] bg-[#a8e0d1] rounded-lg flex items-center justify-center text-3xl transition-transform duration-300 hover:scale-105">
                   🌌
                 </div>
                 <span className="font-['Solway'] text-[12px] text-gray-600 mt-2 font-medium">Cosmos Lab</span>
               </div>
-              <div className="w-[190px] h-[230px] bg-white rounded-xl shadow-md border border-black/10 rotate-6 translate-x-[120px] translate-y-[15px] p-3 flex flex-col items-center">
-                <div className="w-full h-[150px] bg-[#ffd599] rounded-lg flex items-center justify-center text-3xl">
+              <div className="w-[190px] h-[230px] bg-white rounded-xl shadow-md border border-black/10 p-3 flex flex-col items-center animate-photo-drift-2 transition-transform duration-300 hover:scale-105 pointer-events-auto cursor-pointer">
+                <div className="w-full h-[150px] bg-[#ffd599] rounded-lg flex items-center justify-center text-3xl transition-transform duration-300 hover:scale-105">
                   🧪
                 </div>
                 <span className="font-['Solway'] text-[12px] text-gray-600 mt-2 font-medium">Field Experiments</span>
@@ -258,8 +259,8 @@ export function Hero() {
             </div>
 
             {/* Central Info Card */}
-            <div className="relative z-10 flex flex-col items-center text-center max-w-[420px] px-8 py-6 rounded-2xl">
-              <div className="w-[56px] h-[56px] rounded-full bg-[#24705f]/15 flex items-center justify-center text-[#24705f] mb-3">
+            <div className="relative z-10 flex flex-col items-center text-center max-w-[420px] px-8 py-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:bg-white/40 backdrop-blur-[2px] cursor-pointer group">
+              <div className="w-[56px] h-[56px] rounded-full bg-[#24705f]/15 flex items-center justify-center text-[#24705f] mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 animate-pulse-slow">
                 <svg
                   className="w-7 h-7"
                   fill="none"
@@ -274,13 +275,13 @@ export function Hero() {
                   />
                 </svg>
               </div>
-              <h3 className="font-['Solway'] text-[22px] font-semibold text-[#1e5d50] m-0">
+              <h3 className="font-['Solway'] text-[22px] font-semibold text-[#1e5d50] m-0 transition-colors duration-200 group-hover:text-[#16483e]">
                 Photos Slideshow
               </h3>
               <p className="font-['Solway'] text-[14px] text-[#2d6e60] mt-2 mb-3 leading-relaxed">
                 Moments, highlights, and discoveries from Sepri’s universe will be featured right here soon!
               </p>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-['Solway'] font-medium bg-[#24705f]/15 text-[#195447]">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-['Solway'] font-medium bg-[#24705f]/15 text-[#195447] transition-all duration-200 hover:scale-105 active:scale-95 hover:bg-[#24705f]/25 select-none">
                 <span className="w-2 h-2 rounded-full bg-[#24705f] animate-pulse"></span>
                 Coming Soon
               </span>
@@ -309,7 +310,7 @@ export function Hero() {
               aria-label="Draggable playground panel"
             >
               {/* Visible Grip Bar */}
-              <div className="w-[20px] h-[80px] rounded-full bg-[#2e2e2e] border-2 border-[#fbda6c] flex flex-col items-center justify-center gap-[4px] shadow-lg transition-transform group-hover:scale-105">
+              <div className="w-[20px] h-[80px] rounded-full bg-[#2e2e2e] border-2 border-[#fbda6c] flex flex-col items-center justify-center gap-[4px] shadow-lg transition-transform duration-200 group-hover:scale-110 group-active:scale-90">
                 <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
                 <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
                 <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
