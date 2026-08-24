@@ -2,16 +2,52 @@ import { useState, useRef } from 'react'
 import logoIcon from '../assets/logo-icon.svg'
 import balloonSvg from '../assets/balloon.svg'
 import charPicture from '../assets/char-picture.png'
+import { PlaygroundPhysics } from './PlaygroundPhysics'
 
 const PANEL_WIDTH = 815
 const VISIBLE_HANDLE_WIDTH = 40
 const MAX_OFFSET = PANEL_WIDTH - VISIBLE_HANDLE_WIDTH // 775px
+
+const NAV_LINKS = [
+  { id: 'Nav-Link-1', href: '#blog', label: 'Blog' },
+  { id: 'Nav-Link-2', href: '#class', label: 'Class' },
+  { id: 'Nav-Link-3', href: '#my-journey', label: 'My Journey' },
+  { id: 'Nav-Link-4', href: '#contact-me', label: 'Contact Me' },
+]
 
 export function Hero() {
   const [isOpen, setIsOpen] = useState(false)
   const [currentOffset, setCurrentOffset] = useState(MAX_OFFSET)
   const [isDragging, setIsDragging] = useState(false)
   const [hasInteracted, setHasInteracted] = useState(false)
+
+  // Nav highlight state
+  const [navHighlight, setNavHighlight] = useState<{
+    left: number
+    width: number
+    activeKey: string | null
+  }>({
+    left: 0,
+    width: 0,
+    activeKey: null,
+  })
+
+  const handleLinkMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const target = e.currentTarget
+    const PADDING_X = 22
+    setNavHighlight({
+      left: target.offsetLeft - PADDING_X,
+      width: target.offsetWidth + PADDING_X * 2,
+      activeKey: href,
+    })
+  }
+
+  const handleNavMouseLeave = () => {
+    setNavHighlight((prev) => ({
+      ...prev,
+      activeKey: null,
+    }))
+  }
 
   const dragStartRef = useRef<{
     startX: number
@@ -158,36 +194,39 @@ export function Hero() {
         {/* Nav */}
         <nav
           id="Nav"
-          className="relative flex flex-row items-center gap-[48px] pr-[64px] self-end"
+          onMouseLeave={handleNavMouseLeave}
+          className="relative flex flex-row items-center gap-[48px] pr-[64px] self-end py-1"
         >
-          <a
-            id="Nav-Link-1"
-            href="#blog"
-            className="font-['Solway'] text-[20px] font-normal leading-[1.2] text-black h-[24px] no-underline select-none"
-          >
-            Blog
-          </a>
-          <a
-            id="Nav-Link-2"
-            href="#class"
-            className="font-['Solway'] text-[20px] font-normal leading-[1.2] text-black h-[24px] no-underline select-none"
-          >
-            Class
-          </a>
-          <a
-            id="Nav-Link-3"
-            href="#my-journey"
-            className="font-['Solway'] text-[20px] font-normal leading-[1.2] text-black h-[24px] no-underline select-none"
-          >
-            My Journey
-          </a>
-          <a
-            id="Nav-Link-4"
-            href="#contact-me"
-            className="font-['Solway'] text-[20px] font-normal leading-[1.2] text-black h-[24px] no-underline select-none"
-          >
-            Contact Me
-          </a>
+          {/* Hanging Purple Nav Highlighter */}
+          <div
+            id="Nav-Highlighter"
+            className="absolute top-[-40px] h-[92px] bg-[#d82b78] rounded-b-[26px] pointer-events-none z-0 will-change-transform shadow-[0_4px_14px_rgba(216,43,120,0.35)]"
+            style={{
+              left: `${navHighlight.left}px`,
+              width: `${navHighlight.width}px`,
+              transform: navHighlight.activeKey ? 'translateY(0)' : 'translateY(-100%)',
+              transition:
+                'left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease',
+              opacity: navHighlight.width > 0 ? 1 : 0,
+            }}
+          />
+
+          {NAV_LINKS.map((link) => {
+            const isHovered = navHighlight.activeKey === link.href
+            return (
+              <a
+                key={link.id}
+                id={link.id}
+                href={link.href}
+                onMouseEnter={(e) => handleLinkMouseEnter(e, link.href)}
+                className={`relative z-10 font-['Solway'] text-[20px] font-normal leading-[1.2] h-[24px] no-underline select-none transition-colors duration-200 ${
+                  isHovered ? 'text-white' : 'text-black'
+                }`}
+              >
+                {link.label}
+              </a>
+            )
+          })}
         </nav>
 
         {/* Hero Interactive Stage Container */}
@@ -290,93 +329,7 @@ export function Hero() {
               id="Playground"
               className="absolute left-[38px] top-[20px] w-[753px] h-[506px] bg-[#00d9ff] shadow-[inset_6px_6px_0px_2px_rgba(0,0,0,0.25)] overflow-hidden"
             >
-
-
-              {/* Object 1 (Newton's Cradle swinging orange ball) */}
-              <div
-                id="Object-1"
-                className="absolute left-0 top-0 w-full h-full pointer-events-none"
-              >
-                {/* String 1 */}
-                <svg
-                  id="String-1"
-                  className="absolute left-[178.07px] top-0 w-[65.93px] h-[180.32px]"
-                  viewBox="0 0 65.931 180.325"
-                  fill="none"
-                >
-                  <line
-                    x1="65.931"
-                    y1="0"
-                    x2="0"
-                    y2="180.325"
-                    stroke="#FFFFFF"
-                    strokeWidth="2"
-                  />
-                </svg>
-                {/* Circle 1 */}
-                <div
-                  id="Circle-1"
-                  className="absolute left-[101.49px] top-[176.86px] w-[114px] h-[114px] rounded-full bg-[#fd7e1c] border border-black rotate-[20.08deg]"
-                />
-              </div>
-
-              {/* Object 2 */}
-              <div
-                id="Object-2"
-                className="absolute left-[301px] top-0 w-[114px] h-[306px]"
-              >
-                {/* String 2 */}
-                <div
-                  id="String-2"
-                  className="absolute left-[57px] top-0 w-[2px] h-[192px] bg-white"
-                />
-                {/* Circle 2 */}
-                <div
-                  id="Circle-2"
-                  className="absolute left-0 top-[192px] w-[114px] h-[114px] rounded-full bg-[#d82b78] border border-black"
-                />
-              </div>
-
-              {/* Object 3 */}
-              <div
-                id="Object-3"
-                className="absolute left-[415px] top-0 w-[114px] h-[306px]"
-              >
-                {/* String 3 */}
-                <div
-                  id="String-3"
-                  className="absolute left-[57px] top-0 w-[2px] h-[192px] bg-white"
-                />
-                {/* Circle 3 */}
-                <div
-                  id="Circle-3"
-                  className="absolute left-0 top-[192px] w-[114px] h-[114px] rounded-full bg-[#00ac14] border border-black"
-                />
-              </div>
-
-              {/* Object 7 (Yellow block) */}
-              <div
-                id="Object-7"
-                className="absolute left-[592px] top-[110px] w-[100px] h-[99px] bg-[#ffdb74] border border-black"
-              />
-
-              {/* Object 6 (Dark grey block) */}
-              <div
-                id="Object-6"
-                className="absolute left-[623px] top-[209px] w-[100px] h-[99px] bg-[#2e2e2e] border border-black"
-              />
-
-              {/* Object 5 (Red block) */}
-              <div
-                id="Object-5"
-                className="absolute left-[604px] top-[308px] w-[100px] h-[99px] bg-[#9f2222] border border-black"
-              />
-
-              {/* Object 4 (Light grey block) */}
-              <div
-                id="Object-4"
-                className="absolute left-[632px] top-[407px] w-[100px] h-[99px] bg-[#d9d9d9] border border-black"
-              />
+              <PlaygroundPhysics />
             </div>
           </div>
         </div>
