@@ -114,7 +114,7 @@ export function PlaygroundPhysics({
       BOX_HEIGHT + 2 * WALL_THICKNESS,
       {
         isStatic: true,
-        restitution: 0.1,
+        restitution: 0.5,
         friction: 5,
       }
     )
@@ -126,7 +126,7 @@ export function PlaygroundPhysics({
       BOX_HEIGHT + 2 * WALL_THICKNESS,
       {
         isStatic: true,
-        restitution: 0.1,
+        restitution: 0.5,
         friction: 5,
       }
     )
@@ -160,8 +160,8 @@ export function PlaygroundPhysics({
       pointA: { x: currentWallX + pivotRel1.x, y: currentWallY + pivotRel1.y },
       bodyB: ball1,
       length: STRING_LENGTH,
-      stiffness: 1,
-      damping: 0.0001,
+      stiffness: 0.01,
+      damping: 0.001,
     })
 
     // Ball 2 (Magenta, middle)
@@ -182,8 +182,8 @@ export function PlaygroundPhysics({
       pointA: { x: currentWallX + pivotRel2.x, y: currentWallY + pivotRel2.y },
       bodyB: ball2,
       length: STRING_LENGTH,
-      stiffness: 1,
-      damping: 0.0001,
+      stiffness: 0.01,
+      damping: 0.001,
     })
 
     // Ball 3 (Green, right)
@@ -204,8 +204,8 @@ export function PlaygroundPhysics({
       pointA: { x: currentWallX + pivotRel3.x, y: currentWallY + pivotRel3.y },
       bodyB: ball3,
       length: STRING_LENGTH,
-      stiffness: 1,
-      damping: 0.0001,
+      stiffness: 0.01,
+      damping: 0.001,
     })
 
     Composite.add(world, [
@@ -227,7 +227,7 @@ export function PlaygroundPhysics({
       BOX_W,
       BOX_H,
       {
-        restitution: 0.01,
+        restitution: 0.1,
         friction: 5,
         frictionAir: 0.002,
         density: 0.03,
@@ -240,7 +240,7 @@ export function PlaygroundPhysics({
       BOX_W,
       BOX_H,
       {
-        restitution: 0.01,
+        restitution: 0.1,
         friction: 5,
         frictionAir: 0.002,
         density: 0.03,
@@ -253,7 +253,7 @@ export function PlaygroundPhysics({
       BOX_W,
       BOX_H,
       {
-        restitution: 0.01,
+        restitution: 0.1,
         friction: 5,
         frictionAir: 0.002,
         density: 0.03,
@@ -266,7 +266,7 @@ export function PlaygroundPhysics({
       BOX_W,
       BOX_H,
       {
-        restitution: 0.01,
+        restitution: 0.1,
         friction: 5,
         frictionAir: 0.002,
         density: 0.03,
