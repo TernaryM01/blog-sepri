@@ -301,7 +301,7 @@ export function Hero() {
           >
             {/* Draggable Left Handle Bar */}
             <div
-              className="absolute left-0 top-0 w-[40px] h-full cursor-grab active:cursor-grabbing z-30 flex flex-col items-center justify-center group focus:outline-none"
+              className="absolute left-0 top-0 w-[40px] h-full cursor-grab active:cursor-grabbing z-30 flex flex-col items-center justify-center group focus:outline-none touch-none"
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
