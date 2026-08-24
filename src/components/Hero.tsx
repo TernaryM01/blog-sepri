@@ -317,16 +317,6 @@ export function Hero() {
               </div>
             </div>
 
-            {/* First-time Visual Hint Indicator */}
-            {!hasInteracted && !isOpen && (
-              <div className="absolute left-[-165px] top-1/2 -translate-y-1/2 z-40 pointer-events-none animate-drag-hint">
-                <div className="bg-[#2e2e2e] text-[#fbda6c] px-3.5 py-1.5 rounded-full font-['Solway'] text-[13px] font-semibold flex items-center gap-2 shadow-[0_4px_14px_rgba(0,0,0,0.35)] border border-[#fbda6c]/70 whitespace-nowrap">
-                  <span className="text-[14px]">👈</span>
-                  <span>Drag to explore</span>
-                </div>
-              </div>
-            )}
-
             {/* Playground Content Area */}
             <div
               id="Playground"
