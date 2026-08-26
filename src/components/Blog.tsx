@@ -1,11 +1,17 @@
+import { useEffect, useState } from 'react'
+import { supabase } from '../lib/supabase'
+import type { BlogPost } from '../types/blog'
+
 interface BlogCardProps {
   id: string
   title: string
+  snippet: string
+  coverImageUrl?: string | null
   rotationClass: string
   style?: React.CSSProperties
 }
 
-function BlogCard({ id, title, rotationClass, style }: BlogCardProps) {
+function BlogCard({ id, title, snippet, coverImageUrl, rotationClass, style }: BlogCardProps) {
   return (
     <div
       id={id}
@@ -28,22 +34,29 @@ function BlogCard({ id, title, rotationClass, style }: BlogCardProps) {
           <span className="inline-block transition-transform duration-200 group-hover:translate-x-1.5">&gt;</span>
         </a>
 
-        {/* Body Snippet */}
+        {/* Body Snippet (truncated) */}
         <p
           id="Body-Snippet"
-          className="w-full m-0 font-['Solway'] text-[16px] font-normal leading-[1.2] text-black text-center select-none transition-opacity duration-200 group-hover:opacity-90"
+          className="w-full m-0 font-['Solway'] text-[16px] font-normal leading-[1.3] text-black text-center select-none transition-opacity duration-200 group-hover:opacity-90 line-clamp-4 min-h-[76px]"
+          title={snippet}
         >
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it to
-          make a type specimen . . .
+          {snippet}
         </p>
+
+        {/* Cover Image */}
+        {coverImageUrl && (
+          <img
+            src={coverImageUrl}
+            alt={title}
+            className="w-full"
+          />
+        )}
       </div>
 
       {/* Title */}
       <h3
         id="Title"
-        className="w-full m-0 font-['Solway'] text-[32px] font-bold leading-[1.2] text-[#3f2007] text-center select-none transition-colors duration-300 group-hover:text-[#8a3500]"
+        className="w-full m-0 font-['Solway'] text-[32px] font-bold leading-[1.2] text-[#3f2007] text-center select-none transition-colors duration-300 group-hover:text-[#8a3500] line-clamp-2 min-h-[76px] flex items-center justify-center"
       >
         {title}
       </h3>
@@ -51,7 +64,56 @@ function BlogCard({ id, title, rotationClass, style }: BlogCardProps) {
   )
 }
 
+function BlogCardSkeleton({ rotationClass }: { rotationClass: string }) {
+  return (
+    <div
+      className={`w-[371px] bg-[#ffdb74]/80 shadow-[6px_6px_0px_2px_rgba(0,0,0,0.25)] flex flex-col-reverse items-start justify-start gap-[24px] pt-[42px] px-[32px] pb-[36px] animate-pulse ${rotationClass}`}
+    >
+      <div className="w-full flex flex-col-reverse items-start justify-start gap-[20px]">
+        <div className="h-5 w-24 bg-[#e6c158] self-end rounded" />
+        <div className="w-full space-y-2">
+          <div className="h-4 bg-[#e6c158] rounded w-full" />
+          <div className="h-4 bg-[#e6c158] rounded w-5/6 mx-auto" />
+          <div className="h-4 bg-[#e6c158] rounded w-4/6 mx-auto" />
+        </div>
+      </div>
+      <div className="h-8 bg-[#e6c158] rounded w-3/4 mx-auto" />
+    </div>
+  )
+}
+
 export function Blog() {
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        setLoading(true)
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .order('created_at', { ascending: true })
+
+        if (error) {
+          throw error
+        }
+
+        if (data) {
+          setPosts(data as BlogPost[])
+        }
+      } catch (err) {
+        console.error('Error fetching blog posts:', err)
+        setError(err instanceof Error ? err.message : 'Failed to fetch posts')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
   return (
     <section
       id="Blog"
@@ -61,7 +123,7 @@ export function Blog() {
       <svg
         id="Blog-Background-Pattern"
         className="absolute inset-0 w-full h-full pointer-events-none"
-        xmlns="http://w3.org"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
           <pattern
@@ -115,21 +177,36 @@ export function Blog() {
         id="Blog-Cards"
         className="relative z-10 w-full flex flex-row items-start justify-center gap-[24px] px-[20px] flex-wrap"
       >
-        <BlogCard
-          id="Blog-Card-1"
-          title="Dialog Pagi “Belajar Peduli”"
-          rotationClass="-rotate-[2deg] hover:rotate-0 active:rotate-0"
-        />
-        <BlogCard
-          id="Blog-Card-2"
-          title="Suhu dan Semen"
-          rotationClass="rotate-[2deg] hover:rotate-0 active:rotate-0"
-        />
-        <BlogCard
-          id="Blog-Card-3"
-          title="Keajaiban Petir"
-          rotationClass="-rotate-[2deg] hover:rotate-0 active:rotate-0"
-        />
+        {loading ? (
+          <>
+            <BlogCardSkeleton rotationClass="-rotate-[2deg]" />
+            <BlogCardSkeleton rotationClass="rotate-[2deg]" />
+            <BlogCardSkeleton rotationClass="-rotate-[2deg]" />
+          </>
+        ) : error ? (
+          <div className="bg-[#ffdb74] p-6 rounded-lg shadow-md text-center max-w-md">
+            <p className="font-['Solway'] text-[#3f2007] font-semibold mb-2">Gagal memuat artikel blog</p>
+            <p className="text-sm text-gray-700">{error}</p>
+          </div>
+        ) : (
+          posts.map((post, index) => {
+            const rotationClass =
+              index % 2 === 0
+                ? '-rotate-[2deg] hover:rotate-0 active:rotate-0'
+                : 'rotate-[2deg] hover:rotate-0 active:rotate-0'
+
+            return (
+              <BlogCard
+                key={post.id}
+                id={`Blog-Card-${index + 1}`}
+                title={post.title}
+                snippet={post.snippet}
+                coverImageUrl={post.cover_image_url}
+                rotationClass={rotationClass}
+              />
+            )
+          })
+        )}
       </div>
     </section>
   )

@@ -19,7 +19,6 @@ export function Hero() {
   const [isOpen, setIsOpen] = useState(false)
   const [currentOffset, setCurrentOffset] = useState(MAX_OFFSET)
   const [isDragging, setIsDragging] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
 
   // Nav highlight state
   const [navHighlight, setNavHighlight] = useState<{
@@ -89,7 +88,6 @@ export function Hero() {
       // ignore
     }
     setIsDragging(false)
-    setHasInteracted(true)
 
     if (!dragStartRef.current.moved) {
       // Clicks are ignored — only dragging opens/closes
