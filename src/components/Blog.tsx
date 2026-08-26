@@ -8,13 +8,15 @@ interface BlogCardProps {
   snippet: string
   coverImageUrl?: string | null
   rotationClass: string
+  onClick?: () => void
   style?: React.CSSProperties
 }
 
-function BlogCard({ id, title, snippet, coverImageUrl, rotationClass, style }: BlogCardProps) {
+function BlogCard({ id, title, snippet, coverImageUrl, rotationClass, onClick, style }: BlogCardProps) {
   return (
     <div
       id={id}
+      onClick={onClick}
       className={`w-[371px] bg-[#ffdb74] shadow-[6px_6px_0px_2px_rgba(0,0,0,0.25)] flex flex-col-reverse items-start justify-start gap-[24px] pt-[42px] px-[32px] pb-[36px] cursor-pointer transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[10px_12px_0px_2px_rgba(0,0,0,0.28)] hover:scale-[1.015] active:translate-y-0 active:scale-[0.98] active:shadow-[4px_4px_0px_2px_rgba(0,0,0,0.25)] group select-none ${rotationClass}`}
       style={style}
     >
@@ -27,7 +29,11 @@ function BlogCard({ id, title, snippet, coverImageUrl, rotationClass, style }: B
         <a
           id="Read-more"
           href="#"
-          onClick={(e) => e.preventDefault()}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onClick?.()
+          }}
           className="w-full font-['Solitreo'] text-[20px] font-normal leading-[1.2] text-[#3f2007] text-right no-underline select-none transition-all duration-200 group-hover:text-[#8a3500] flex items-center justify-end gap-1"
         >
           <span>Read more</span>
@@ -82,7 +88,11 @@ function BlogCardSkeleton({ rotationClass }: { rotationClass: string }) {
   )
 }
 
-export function Blog() {
+interface BlogProps {
+  onSelectPost?: (slug: string) => void
+}
+
+export function Blog({ onSelectPost }: BlogProps) {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -203,6 +213,7 @@ export function Blog() {
                 snippet={post.snippet}
                 coverImageUrl={post.cover_image_url}
                 rotationClass={rotationClass}
+                onClick={() => onSelectPost?.(post.slug)}
               />
             )
           })
