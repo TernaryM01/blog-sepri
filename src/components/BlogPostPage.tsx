@@ -190,17 +190,12 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
           </div>
         ) : (
           <article className="relative w-full bg-[#fffcf5] border-[4px] border-[#3f2007] shadow-[10px_10px_0px_2px_rgba(0,0,0,0.25)] rounded-[28px] p-6 md:p-14 overflow-hidden">
-            {/* Top Washi Tape Sticker Decoration */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-6 bg-[#d82b78]/85 border-b-2 border-r-2 border-[#3f2007]/30 shadow-sm rotate-[-1deg]" />
 
             {/* Article Metadata Tag */}
             <div className="flex flex-row items-center justify-center gap-2 mb-4 mt-2">
-              <span className="font-['Solway'] text-[13px] font-bold uppercase tracking-wider text-[#8a3500] bg-[#ffdb74] px-3 py-1 rounded-full border border-[#3f2007]/20 shadow-xs">
-                🔬 Sepri’s Lab Journal
-              </span>
               {post.created_at && (
                 <span className="font-['Solway'] text-[13px] text-[#6b4728]">
-                  • {new Date(post.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  Initially posted on {new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
               )}
             </div>
@@ -234,22 +229,8 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
               )}
             </div>
 
-            {/* Author Footer Stamp */}
             <div className="mt-14 pt-8 border-t-2 border-dashed border-[#3f2007]/20 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex flex-row items-center gap-4">
-                <img
-                  src={charPicture}
-                  alt="Sepri"
-                  className="w-14 h-14 rounded-full border-2 border-[#3f2007] bg-[#cbefe6] object-cover"
-                />
-                <div>
-                  <h4 className="font-['Solway'] text-[18px] font-bold text-[#3f2007] m-0">
-                    Sepri
-                  </h4>
-                  <p className="font-['Solway'] text-[14px] text-[#6b4728] m-0">
-                    Explorer of thoughts, science & creativity
-                  </p>
-                </div>
               </div>
 
               <button
