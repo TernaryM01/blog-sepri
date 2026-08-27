@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import type { BlogPost, BlogContentBlock } from '../types/blog'
 import logoIcon from '../assets/logo-icon.svg'
-import charPicture from '../assets/char-picture.png'
 
 interface BlogPostPageProps {
   slug: string
@@ -37,7 +36,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
 
         setPost(postData as BlogPost)
 
-        // Fetch other posts for "More from Sepri's Lab" section
+        // Fetch other posts for "More from Sepriani's Lab" section
         const { data: allPosts } = await supabase
           .from('posts')
           .select('*')
@@ -151,11 +150,11 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
         >
           <img
             src={logoIcon}
-            alt="Sepri's Lab"
+            alt="Sepriani's Lab"
             className="w-10 h-10 transition-transform duration-300 group-hover:rotate-6"
           />
           <span className="font-['Solway'] text-[24px] font-bold text-[#3f2007] transition-colors duration-200 group-hover:text-[#185347]">
-            Sepri’s Lab
+            Sepriani’s Lab
           </span>
         </button>
       </header>

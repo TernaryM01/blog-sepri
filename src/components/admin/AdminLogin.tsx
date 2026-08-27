@@ -67,7 +67,7 @@ export function AdminLogin({ onLoginSuccess, onNavigateHome }: AdminLoginProps) 
         <div className="flex flex-col items-center text-center mb-8">
           <img src={logoIcon} alt="Logo" className="w-16 h-16 mb-2" />
           <h1 className="font-['Solway'] text-[28px] font-bold text-[#3f2007] m-0">
-            Sepri’s Lab Admin
+            Sepriani’s Lab Admin
           </h1>
           <p className="font-['Solway'] text-[14px] text-[#6b4728] mt-1">
             Sign in to manage and publish blog posts

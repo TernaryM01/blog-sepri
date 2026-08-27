@@ -147,7 +147,7 @@ export function Hero() {
             id="Logo-Text"
             className="font-['Solway'] text-[40px] font-normal leading-[1.2] text-black text-center select-none transition-colors duration-300 group-hover:text-[#185347]"
           >
-            Sepri’s Lab
+            Sepriani’s Lab
           </span>
         </a>
 
@@ -277,7 +277,7 @@ export function Hero() {
                 Photos Slideshow
               </h3>
               <p className="font-['Solway'] text-[14px] text-[#2d6e60] mt-2 mb-3 leading-relaxed">
-                Moments, highlights, and discoveries from Sepri’s universe will be featured right here soon!
+                Moments, highlights, and discoveries from Sepriani’s universe will be featured right here soon!
               </p>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-['Solway'] font-medium bg-[#24705f]/15 text-[#195447] transition-all duration-200 hover:scale-105 active:scale-95 hover:bg-[#24705f]/25 select-none">
                 <span className="w-2 h-2 rounded-full bg-[#24705f] animate-pulse"></span>

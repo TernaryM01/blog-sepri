@@ -132,7 +132,7 @@ function App() {
           authLoading ? (
             <div className="w-full min-h-[70vh] flex items-center justify-center">
               <div className="font-['Solway'] text-[20px] font-bold text-[#3f2007] animate-pulse">
-                Loading Sepri’s Lab Admin...
+                Loading Sepriani’s Lab Admin...
               </div>
             </div>
           ) : session && isAdmin ? (
