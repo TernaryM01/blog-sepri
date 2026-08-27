@@ -15,16 +15,10 @@ type RouteState =
 function getRouteFromLocation(): RouteState {
   if (typeof window === 'undefined') return { type: 'home' }
 
-  const hash = window.location.hash
   const pathname = window.location.pathname
 
-  if (hash.startsWith('#/admin') || pathname.startsWith('/admin')) {
+  if (pathname.startsWith('/admin')) {
     return { type: 'admin' }
-  }
-
-  if (hash.startsWith('#/blog/')) {
-    const slug = hash.replace('#/blog/', '').trim()
-    if (slug) return { type: 'post', slug }
   }
 
   if (pathname.startsWith('/blog/')) {
@@ -92,23 +86,21 @@ function App() {
     }
 
     window.addEventListener('popstate', handleLocationChange)
-    window.addEventListener('hashchange', handleLocationChange)
 
     return () => {
       authListener.subscription.unsubscribe()
       window.removeEventListener('popstate', handleLocationChange)
-      window.removeEventListener('hashchange', handleLocationChange)
     }
   }, [])
 
   const handleSelectPost = (slug: string) => {
-    window.history.pushState({}, '', `#/blog/${slug}`)
+    window.history.pushState({}, '', `/blog/${slug}`)
     setRoute({ type: 'post', slug })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleNavigateHome = () => {
-    window.history.pushState({}, '', '#/')
+    window.history.pushState({}, '', '/')
     setRoute({ type: 'home' })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
