@@ -122,7 +122,7 @@ function App() {
   return (
     <div
       id="Desktop"
-      className="min-h-screen w-full bg-[#8f8f8f] flex flex-row justify-center items-stretch overflow-x-hidden"
+      className="min-h-screen w-full bg-[#8f8f8f] flex flex-row justify-center items-stretch overflow-x-clip"
     >
       <div
         id="Body"

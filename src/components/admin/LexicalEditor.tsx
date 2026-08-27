@@ -96,7 +96,7 @@ function ToolbarPlugin({ editor }: ToolbarProps) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5 p-2 bg-[#ffea9f] border-b-[3px] border-[#3f2007] rounded-t-xl select-none">
+    <div className="sticky top-0 z-20 flex flex-wrap items-center gap-1.5 p-2 bg-[#ffea9f] border-b-[3px] border-[#3f2007] select-none">
       {/* Block format dropdown / buttons */}
       <div className="flex items-center gap-1 bg-white/70 p-1 rounded-lg border border-[#3f2007]/30 mr-2">
         <button
@@ -351,7 +351,7 @@ export function LexicalEditor({ initialContent, onChange }: LexicalEditorProps) 
   }
 
   return (
-    <div className="w-full bg-[#fffcf5] border-[3px] border-[#3f2007] rounded-xl shadow-[4px_4px_0px_1px_rgba(0,0,0,0.2)] overflow-hidden">
+    <div className="w-full bg-[#fffcf5] border-[3px] border-[#3f2007] rounded-xl shadow-[4px_4px_0px_1px_rgba(0,0,0,0.2)] overflow-clip">
       <LexicalComposer initialConfig={initialConfig}>
         <ToolbarWrapper />
         <InitialContentPlugin initialBlocks={initialContent} />
