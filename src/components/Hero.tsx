@@ -124,7 +124,7 @@ export function Hero() {
   return (
     <div
       id="Hero"
-      className="relative w-full flex flex-row items-center justify-between py-[36px] min-h-[697px] self-stretch"
+      className="relative w-full flex flex-col max-[1150px]:items-center min-[1150px]:flex-row min-[1150px]:items-center min-[1150px]:justify-between py-[36px] min-[1150px]:min-h-[697px] self-stretch"
     >
       {/* Hero Left */}
       <div
@@ -187,16 +187,16 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Hero Right */}
+      {/* Hero Right — nav always visible; stage hidden below 1150px where the 815px panel can't fit */}
       <div
         id="Hero-Right"
-        className="relative w-[815px] flex flex-col items-end justify-start gap-[55px] shrink-0 self-stretch"
+        className="relative w-full min-[1150px]:w-[815px] flex flex-col items-end justify-start gap-[55px] shrink-0 self-stretch order-first min-[1150px]:order-none"
       >
         {/* Nav */}
         <nav
           id="Nav"
           onMouseLeave={handleNavMouseLeave}
-          className="relative flex flex-row items-center gap-[48px] pr-[64px] self-end py-1"
+          className="relative flex flex-row items-center gap-[28px] min-[1150px]:gap-[48px] pr-[20px] min-[1150px]:pr-[64px] self-end py-1"
         >
           {/* Hanging Purple Nav Highlighter */}
           <div
@@ -230,10 +230,10 @@ export function Hero() {
           })}
         </nav>
 
-        {/* Hero Interactive Stage Container */}
+        {/* Hero Interactive Stage Container — hidden below 1150px */}
         <div
           id="Hero-Stage"
-          className="relative w-[815px] min-h-[546px] shrink-0 self-stretch"
+          className="relative w-[815px] min-h-[546px] shrink-0 self-stretch hidden min-[1150px]:block"
         >
           {/* Photos Slideshow Placeholder (Revealed when playground is hidden) */}
           <div
@@ -326,8 +326,10 @@ export function Hero() {
           </div>
         </div>
       </div>
-      {/* Fixed Viewport Physics Canvas */}
-      <PlaygroundPhysics targetRef={playgroundSlotRef} />
+      {/* Fixed Viewport Physics Canvas — only rendered when playground panel is visible */}
+      <div className="hidden min-[1150px]:block">
+        <PlaygroundPhysics targetRef={playgroundSlotRef} />
+      </div>
     </div>
   )
 }

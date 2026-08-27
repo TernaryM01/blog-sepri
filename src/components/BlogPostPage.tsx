@@ -62,8 +62,8 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
       block.align === 'center'
         ? 'text-center'
         : block.align === 'right'
-        ? 'text-right'
-        : 'text-left'
+          ? 'text-right'
+          : 'text-left'
 
     if (block.type === 'heading') {
       const level = block.level || 2
@@ -105,16 +105,16 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
         >
           {block.spans && block.spans.length > 0
             ? block.spans.map((span, spanIdx) => {
-                let spanClasses = ''
-                if (span.bold) spanClasses += ' font-bold text-[#1a0f06]'
-                if (span.italic) spanClasses += ' italic'
+              let spanClasses = ''
+              if (span.bold) spanClasses += ' font-bold text-[#1a0f06]'
+              if (span.italic) spanClasses += ' italic'
 
-                return (
-                  <span key={spanIdx} className={spanClasses}>
-                    {span.text}
-                  </span>
-                )
-              })
+              return (
+                <span key={spanIdx} className={spanClasses}>
+                  {span.text}
+                </span>
+              )
+            })
             : block.text}
         </p>
       )
@@ -129,7 +129,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
       className="w-full flex flex-col items-center justify-start pb-[64px] min-h-screen"
     >
       {/* Top Navigation Bar */}
-      <header className="w-full max-w-[960px] px-6 py-6 flex flex-row items-center justify-between z-20">
+      <header className="w-full max-w-[960px] px-4 min-[880px]:px-6 py-6 flex flex-row items-center justify-between z-20">
         {/* Back Button */}
         <button
           onClick={onNavigateHome}
@@ -160,9 +160,9 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
       </header>
 
       {/* Main Reading Sheet / Notebook */}
-      <main className="w-full max-w-[880px] px-4 md:px-6 relative z-10">
+      <main className="w-full max-w-[880px] px-0 min-[880px]:px-6 relative z-10">
         {loading ? (
-          <div className="w-full bg-[#fffcf5] border-[4px] border-[#3f2007] shadow-[8px_8px_0px_2px_rgba(0,0,0,0.25)] rounded-[28px] p-8 md:p-14 animate-pulse">
+          <div className="w-full bg-[#fffcf5] border-y-[4px] min-[880px]:border-[4px] border-[#3f2007] min-[880px]:shadow-[8px_8px_0px_2px_rgba(0,0,0,0.25)] rounded-none min-[880px]:rounded-[28px] p-6 md:p-14 animate-pulse">
             <div className="h-6 w-32 bg-[#e4d7be] rounded mb-6 mx-auto" />
             <div className="h-12 w-3/4 bg-[#e4d7be] rounded mb-8 mx-auto" />
             <div className="h-64 w-full bg-[#e4d7be] rounded-2xl mb-8" />
@@ -173,7 +173,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
             </div>
           </div>
         ) : error || !post ? (
-          <div className="w-full bg-[#fffcf5] border-[4px] border-[#3f2007] shadow-[8px_8px_0px_2px_rgba(0,0,0,0.25)] rounded-[28px] p-12 text-center">
+          <div className="w-full bg-[#fffcf5] border-y-[4px] min-[880px]:border-[4px] border-[#3f2007] min-[880px]:shadow-[8px_8px_0px_2px_rgba(0,0,0,0.25)] rounded-none min-[880px]:rounded-[28px] p-6 md:p-12 text-center">
             <p className="font-['Solway'] text-[24px] font-bold text-[#3f2007] mb-4">
               Article Not Found
             </p>
@@ -188,7 +188,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
             </button>
           </div>
         ) : (
-          <article className="relative w-full bg-[#fffcf5] border-[4px] border-[#3f2007] shadow-[10px_10px_0px_2px_rgba(0,0,0,0.25)] rounded-[28px] p-6 md:p-14 overflow-hidden">
+          <article className="relative w-full bg-[#fffcf5] border-y-[4px] min-[880px]:border-[4px] border-[#3f2007] min-[880px]:shadow-[10px_10px_0px_2px_rgba(0,0,0,0.25)] rounded-none min-[880px]:rounded-[28px] p-6 md:p-14 overflow-hidden">
 
             {/* Article Metadata Tag */}
             <div className="flex flex-row items-center justify-center gap-2 mb-4 mt-2">
@@ -211,7 +211,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
                   <img
                     src={post.cover_image_url}
                     alt={post.title}
-                    className="w-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.01]"
+                    className="w-full max-h-[500px] object-cover rounded-xl"
                   />
                 </div>
               </div>
@@ -247,7 +247,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
 
         {/* Read Other Articles Shelf */}
         {otherPosts.length > 0 && (
-          <section className="mt-12 w-full">
+          <section className="mt-12 w-full px-4 min-[880px]:px-0">
             <h3 className="font-['Solway'] text-[24px] font-bold text-[#3f2007] mb-6 text-center">
               Explore More Articles
             </h3>
