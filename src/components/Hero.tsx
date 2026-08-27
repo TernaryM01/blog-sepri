@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import logoIcon from '../assets/logo-icon.svg'
 import balloonSvg from '../assets/balloon.svg'
 import charPicture from '../assets/char-picture.png'
@@ -15,10 +15,68 @@ const NAV_LINKS = [
   { id: 'Nav-Link-4', href: '#contact-me', label: 'Contact Me' },
 ]
 
+function PhotosSlideshowPlaceholder({ className = '' }: { className?: string }) {
+  return (
+    <div
+      id="Slideshow-Placeholder"
+      className={`relative w-full max-w-[650px] min-h-[380px] min-[1150px]:min-h-[546px] flex flex-col items-center justify-center p-6 md:p-8 select-none overflow-hidden ${className}`}
+    >
+      {/* Background Decorative Photo Cards */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+        <div className="w-[140px] sm:w-[190px] h-[180px] sm:h-[230px] bg-white rounded-xl shadow-md border border-black/10 p-2.5 sm:p-3 flex flex-col items-center animate-photo-drift-1 transition-transform duration-300 hover:scale-105 pointer-events-auto cursor-pointer">
+          <div className="w-full h-[110px] sm:h-[150px] bg-[#a8e0d1] rounded-lg flex items-center justify-center text-2xl sm:text-3xl transition-transform duration-300 hover:scale-105">
+            🌌
+          </div>
+          <span className="font-['Solway'] text-[11px] sm:text-[12px] text-gray-600 mt-1.5 sm:mt-2 font-medium">Cosmos Lab</span>
+        </div>
+        <div className="w-[140px] sm:w-[190px] h-[180px] sm:h-[230px] bg-white rounded-xl shadow-md border border-black/10 p-2.5 sm:p-3 flex flex-col items-center animate-photo-drift-2 transition-transform duration-300 hover:scale-105 pointer-events-auto cursor-pointer">
+          <div className="w-full h-[110px] sm:h-[150px] bg-[#ffd599] rounded-lg flex items-center justify-center text-2xl sm:text-3xl transition-transform duration-300 hover:scale-105">
+            🧪
+          </div>
+          <span className="font-['Solway'] text-[11px] sm:text-[12px] text-gray-600 mt-1.5 sm:mt-2 font-medium">Field Experiments</span>
+        </div>
+      </div>
+
+      {/* Central Info Card */}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-[420px] px-6 sm:px-8 py-5 sm:py-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:bg-white/40 backdrop-blur-[2px] cursor-pointer group">
+        <div className="w-[50px] sm:w-[56px] h-[50px] sm:h-[56px] rounded-full bg-[#24705f]/15 flex items-center justify-center text-[#24705f] mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 animate-pulse-slow">
+          <svg
+            className="w-6 h-6 sm:w-7 sm:h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+        <h3 className="font-['Solway'] text-[20px] sm:text-[22px] font-semibold text-[#1e5d50] m-0 transition-colors duration-200 group-hover:text-[#16483e]">
+          Photos Slideshow
+        </h3>
+        <p className="font-['Solway'] text-[13px] sm:text-[14px] text-[#2d6e60] mt-2 mb-3 leading-relaxed">
+          Moments, highlights, and discoveries from Sepriani’s universe will be featured right here soon!
+        </p>
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-[12px] font-['Solway'] font-medium bg-[#24705f]/15 text-[#195447] transition-all duration-200 hover:scale-105 active:scale-95 hover:bg-[#24705f]/25 select-none">
+          <span className="w-2 h-2 rounded-full bg-[#24705f] animate-pulse"></span>
+          Coming Soon
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export function Hero() {
   const [isOpen, setIsOpen] = useState(false)
   const [currentOffset, setCurrentOffset] = useState(MAX_OFFSET)
   const [isDragging, setIsDragging] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isDesktopScreen, setIsDesktopScreen] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth >= 1150 : true
+  )
 
   // Nav highlight state
   const [navHighlight, setNavHighlight] = useState<{
@@ -30,6 +88,24 @@ export function Hero() {
     width: 0,
     activeKey: null,
   })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktopScreen(window.innerWidth >= 1150)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   const handleLinkMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     const target = e.currentTarget
@@ -46,6 +122,18 @@ export function Hero() {
       ...prev,
       activeKey: null,
     }))
+  }
+
+  const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false)
+    const targetId = href.replace('#', '')
+    const el =
+      document.getElementById(targetId) ||
+      document.getElementById(targetId.charAt(0).toUpperCase() + targetId.slice(1)) ||
+      document.getElementById(targetId.toLowerCase())
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const dragStartRef = useRef<{
@@ -126,6 +214,59 @@ export function Hero() {
       id="Hero"
       className="relative w-full flex flex-col max-[1150px]:items-center min-[1150px]:flex-row min-[1150px]:items-center min-[1150px]:justify-between py-[36px] min-[1150px]:min-h-[697px] self-stretch"
     >
+      {/* Mobile Hamburger Toggle Button (Top Right) */}
+      <button
+        type="button"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="absolute top-4 right-4 z-50 sm:hidden w-12 h-12 bg-[#ffdb74] border-[3px] border-[#3f2007] shadow-[3px_3px_0px_1px_rgba(0,0,0,0.25)] rounded-2xl flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 select-none"
+        aria-label="Toggle navigation menu"
+        aria-expanded={isMobileMenuOpen}
+      >
+        <span
+          className={`w-6 h-[3px] bg-[#3f2007] rounded-full transition-all duration-300 ${
+            isMobileMenuOpen ? 'rotate-45 translate-y-[9px]' : ''
+          }`}
+        />
+        <span
+          className={`w-6 h-[3px] bg-[#3f2007] rounded-full transition-all duration-300 ${
+            isMobileMenuOpen ? 'opacity-0' : ''
+          }`}
+        />
+        <span
+          className={`w-6 h-[3px] bg-[#3f2007] rounded-full transition-all duration-300 ${
+            isMobileMenuOpen ? '-rotate-45 -translate-y-[9px]' : ''
+          }`}
+        />
+      </button>
+
+      {/* Mobile Pop-open Navigation Menu */}
+      {isMobileMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40 sm:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          <div className="fixed top-18 right-4 left-4 z-50 bg-[#fffcf5] border-[4px] border-[#3f2007] shadow-[6px_6px_0px_2px_rgba(0,0,0,0.25)] rounded-[24px] p-5 flex flex-col items-center gap-2.5 sm:hidden">
+            <span className="font-['Solway'] text-xs font-bold text-[#6b4728] tracking-wider uppercase mb-1">
+              Menu
+            </span>
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick(link.href)
+                }}
+                className="w-full py-3 px-4 font-['Solway'] font-bold text-[19px] text-[#3f2007] bg-[#ffdb74]/40 hover:bg-[#ffdb74] active:bg-[#ffdb74] border-2 border-[#3f2007]/25 hover:border-[#3f2007] rounded-xl text-center no-underline transition-all duration-200 shadow-xs hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.2)] select-none cursor-pointer"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+
       {/* Hero Left */}
       <div
         id="Hero-Left"
@@ -185,18 +326,23 @@ export function Hero() {
             </p>
           </div>
         </div>
+
+        {/* 1-column view Photos Slideshow Placeholder (below Hero Char) */}
+        <div className="w-full flex justify-center mt-6 min-[1150px]:hidden">
+          <PhotosSlideshowPlaceholder />
+        </div>
       </div>
 
-      {/* Hero Right — nav always visible; stage hidden below 1150px where the 815px panel can't fit */}
+      {/* Hero Right — nav on top; in 2-column view (>= 1150px), stage has the slideshow with the draggable playground over it */}
       <div
         id="Hero-Right"
-        className="relative w-full min-[1150px]:w-[815px] flex flex-col items-end justify-start gap-[55px] shrink-0 self-stretch order-first min-[1150px]:order-none"
+        className="relative w-full min-[1150px]:w-[815px] flex flex-col items-center min-[1150px]:items-end justify-start max-[1150px]:mb-10 min-[1150px]:gap-[55px] shrink-0 self-stretch order-first min-[1150px]:order-none"
       >
-        {/* Nav */}
+        {/* Nav — Centered on 1-column view, hidden on mobile in favor of hamburger */}
         <nav
           id="Nav"
           onMouseLeave={handleNavMouseLeave}
-          className="relative flex flex-row items-center gap-[28px] min-[1150px]:gap-[48px] pr-[20px] min-[1150px]:pr-[64px] self-end py-1"
+          className="relative hidden sm:flex flex-row items-center justify-center min-[1150px]:justify-end gap-[28px] min-[1150px]:gap-[48px] px-4 min-[1150px]:pr-[64px] min-[1150px]:self-end py-1 whitespace-nowrap"
         >
           {/* Hanging Purple Nav Highlighter */}
           <div
@@ -219,6 +365,10 @@ export function Hero() {
                 key={link.id}
                 id={link.id}
                 href={link.href}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick(link.href)
+                }}
                 onMouseEnter={(e) => handleLinkMouseEnter(e, link.href)}
                 className={`relative z-10 font-['Solway'] text-[20px] font-normal leading-[1.2] h-[24px] no-underline select-none transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 active:scale-90 cursor-pointer ${
                   isHovered ? 'text-white' : 'text-black'
@@ -230,106 +380,63 @@ export function Hero() {
           })}
         </nav>
 
-        {/* Hero Interactive Stage Container — hidden below 1150px */}
-        <div
-          id="Hero-Stage"
-          className="relative w-[815px] min-h-[546px] shrink-0 self-stretch hidden min-[1150px]:block"
-        >
-          {/* Photos Slideshow Placeholder (Revealed when playground is hidden) */}
+        {/* Hero Interactive Stage Container — only rendered in 2-column view (>= 1150px) */}
+        {isDesktopScreen && (
           <div
-            id="Slideshow-Placeholder"
-            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center p-8 select-none"
+            id="Hero-Stage"
+            className="relative w-[815px] min-h-[546px] shrink-0 self-stretch hidden min-[1150px]:block"
           >
-            {/* Background Decorative Photo Cards */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
-              <div className="w-[190px] h-[230px] bg-white rounded-xl shadow-md border border-black/10 p-3 flex flex-col items-center animate-photo-drift-1 transition-transform duration-300 hover:scale-105 pointer-events-auto cursor-pointer">
-                <div className="w-full h-[150px] bg-[#a8e0d1] rounded-lg flex items-center justify-center text-3xl transition-transform duration-300 hover:scale-105">
-                  🌌
-                </div>
-                <span className="font-['Solway'] text-[12px] text-gray-600 mt-2 font-medium">Cosmos Lab</span>
-              </div>
-              <div className="w-[190px] h-[230px] bg-white rounded-xl shadow-md border border-black/10 p-3 flex flex-col items-center animate-photo-drift-2 transition-transform duration-300 hover:scale-105 pointer-events-auto cursor-pointer">
-                <div className="w-full h-[150px] bg-[#ffd599] rounded-lg flex items-center justify-center text-3xl transition-transform duration-300 hover:scale-105">
-                  🧪
-                </div>
-                <span className="font-['Solway'] text-[12px] text-gray-600 mt-2 font-medium">Field Experiments</span>
-              </div>
-            </div>
+            {/* Photos Slideshow Placeholder in desktop stage */}
+            <PhotosSlideshowPlaceholder className="absolute inset-0 w-full h-full" />
 
-            {/* Central Info Card */}
-            <div className="relative z-10 flex flex-col items-center text-center max-w-[420px] px-8 py-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:bg-white/40 backdrop-blur-[2px] cursor-pointer group">
-              <div className="w-[56px] h-[56px] rounded-full bg-[#24705f]/15 flex items-center justify-center text-[#24705f] mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 animate-pulse-slow">
-                <svg
-                  className="w-7 h-7"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
+            {/* Playground Wrapper (Draggable panel) */}
+            <div
+              id="Playground-Wrapper"
+              style={{
+                transform: `translateX(${currentOffset}px)`,
+                transition: isDragging
+                  ? 'none'
+                  : 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              className="absolute top-0 left-0 w-[815px] h-full rounded-l-[30px] overflow-hidden hazard-stripes-bg shadow-[-8px_0px_20px_rgba(0,0,0,0.22)] select-none will-change-transform z-20"
+            >
+              {/* Draggable Left Handle Bar */}
+              <div
+                className="absolute left-0 top-0 w-[40px] h-full cursor-grab active:cursor-grabbing z-30 flex flex-col items-center justify-center group focus:outline-none touch-none"
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerCancel}
+                role="region"
+                aria-label="Draggable playground panel"
+              >
+                {/* Visible Grip Bar */}
+                <div className="w-[20px] h-[80px] rounded-full bg-[#2e2e2e] border-2 border-[#fbda6c] flex flex-col items-center justify-center gap-[4px] shadow-lg transition-transform duration-200 group-hover:scale-110 group-active:scale-90">
+                  <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
+                  <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
+                  <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
+                </div>
               </div>
-              <h3 className="font-['Solway'] text-[22px] font-semibold text-[#1e5d50] m-0 transition-colors duration-200 group-hover:text-[#16483e]">
-                Photos Slideshow
-              </h3>
-              <p className="font-['Solway'] text-[14px] text-[#2d6e60] mt-2 mb-3 leading-relaxed">
-                Moments, highlights, and discoveries from Sepriani’s universe will be featured right here soon!
-              </p>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-['Solway'] font-medium bg-[#24705f]/15 text-[#195447] transition-all duration-200 hover:scale-105 active:scale-95 hover:bg-[#24705f]/25 select-none">
-                <span className="w-2 h-2 rounded-full bg-[#24705f] animate-pulse"></span>
-                Coming Soon
-              </span>
+
+              {/* Playground Content Area */}
+              <div
+                id="Playground"
+                ref={playgroundSlotRef}
+                className="absolute left-[38px] top-[20px] w-[753px] h-[506px] overflow-hidden"
+              >
+                {/* Reference slot for physics walls tracking */}
+              </div>
             </div>
           </div>
+        )}
+      </div>
 
-          {/* Playground Wrapper (Draggable panel) */}
-          <div
-            id="Playground-Wrapper"
-            style={{
-              transform: `translateX(${currentOffset}px)`,
-              transition: isDragging
-                ? 'none'
-                : 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-            className="absolute top-0 left-0 w-[815px] h-full rounded-l-[30px] overflow-hidden hazard-stripes-bg shadow-[-8px_0px_20px_rgba(0,0,0,0.22)] select-none will-change-transform z-20"
-          >
-            {/* Draggable Left Handle Bar */}
-            <div
-              className="absolute left-0 top-0 w-[40px] h-full cursor-grab active:cursor-grabbing z-30 flex flex-col items-center justify-center group focus:outline-none touch-none"
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={handlePointerCancel}
-              role="region"
-              aria-label="Draggable playground panel"
-            >
-              {/* Visible Grip Bar */}
-              <div className="w-[20px] h-[80px] rounded-full bg-[#2e2e2e] border-2 border-[#fbda6c] flex flex-col items-center justify-center gap-[4px] shadow-lg transition-transform duration-200 group-hover:scale-110 group-active:scale-90">
-                <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
-                <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
-                <div className="w-[8px] h-[2.5px] bg-[#fbda6c] rounded-full" />
-              </div>
-            </div>
-
-            {/* Playground Content Area */}
-            <div
-              id="Playground"
-              ref={playgroundSlotRef}
-              className="absolute left-[38px] top-[20px] w-[753px] h-[506px] overflow-hidden"
-            >
-              {/* Reference slot for physics walls tracking */}
-            </div>
-          </div>
+      {/* Fixed Viewport Physics Canvas — strictly only rendered when playground is present in desktop view */}
+      {isDesktopScreen && (
+        <div className="hidden min-[1150px]:block">
+          <PlaygroundPhysics targetRef={playgroundSlotRef} />
         </div>
-      </div>
-      {/* Fixed Viewport Physics Canvas — only rendered when playground panel is visible */}
-      <div className="hidden min-[1150px]:block">
-        <PlaygroundPhysics targetRef={playgroundSlotRef} />
-      </div>
+      )}
     </div>
   )
 }
