@@ -211,7 +211,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
                   <img
                     src={post.cover_image_url}
                     alt={post.title}
-                    className="w-full max-h-[500px] object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.01]"
+                    className="w-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.01]"
                   />
                 </div>
               </div>
