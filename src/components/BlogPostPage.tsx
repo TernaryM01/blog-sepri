@@ -228,7 +228,7 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
                   <img
                     src={post.cover_image_url}
                     alt={post.title}
-                    className="w-full max-h-[500px] object-cover rounded-xl"
+                    className="w-full object-cover rounded-xl"
                   />
                 </div>
               </div>
