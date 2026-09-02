@@ -103,48 +103,36 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
           key={index}
           className={`font-['Solway'] text-[17px] md:text-[19px] leading-[1.8] text-[#2c1d11] my-4 ${alignClass}`}
         >
-          {block.spans && block.spans.length > 0
-            ? block.spans.map((span, spanIdx) => {
-                const normalizedText = span.text.replace(/\r\n/g, '\n')
-                if (normalizedText === '\n') {
-                  return <br key={spanIdx} />
-                }
+          {block.spans.map((span, spanIdx) => {
+            const normalizedText = span.text.replace(/\r\n/g, '\n')
+            if (normalizedText === '\n') {
+              return <br key={spanIdx} />
+            }
 
-                let spanClasses = ''
-                if (span.bold) spanClasses += ' font-bold text-[#1a0f06]'
-                if (span.italic) spanClasses += ' italic'
+            let spanClasses = ''
+            if (span.bold) spanClasses += ' font-bold text-[#1a0f06]'
+            if (span.italic) spanClasses += ' italic'
 
-                if (normalizedText.includes('\n')) {
-                  const segments = normalizedText.split('\n')
-                  return (
-                    <span key={spanIdx} className={spanClasses}>
-                      {segments.map((segment, segIdx) => (
-                        <span key={segIdx}>
-                          {segIdx > 0 && <br />}
-                          {segment}
-                        </span>
-                      ))}
+            if (normalizedText.includes('\n')) {
+              const segments = normalizedText.split('\n')
+              return (
+                <span key={spanIdx} className={spanClasses}>
+                  {segments.map((segment, segIdx) => (
+                    <span key={segIdx}>
+                      {segIdx > 0 && <br />}
+                      {segment}
                     </span>
-                  )
-                }
+                  ))}
+                </span>
+              )
+            }
 
-                return (
-                  <span key={spanIdx} className={spanClasses}>
-                    {span.text}
-                  </span>
-                )
-              })
-            : block.text
-              ? block.text
-                  .replace(/\r\n/g, '\n')
-                  .split('\n')
-                  .map((line, lIdx) => (
-                    <span key={lIdx}>
-                      {lIdx > 0 && <br />}
-                      {line}
-                    </span>
-                  ))
-              : null}
+            return (
+              <span key={spanIdx} className={spanClasses}>
+                {span.text}
+              </span>
+            )
+          })}
         </p>
       )
     }

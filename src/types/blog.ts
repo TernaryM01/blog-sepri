@@ -16,8 +16,7 @@ export interface HeadingBlock {
 export interface ParagraphBlock {
   type: 'paragraph'
   align?: TextAlignment
-  spans?: TextSpan[]
-  text?: string
+  spans: TextSpan[]
 }
 
 export type BlogContentBlock = HeadingBlock | ParagraphBlock

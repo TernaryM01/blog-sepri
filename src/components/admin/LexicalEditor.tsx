@@ -248,7 +248,7 @@ function InitialContentPlugin({ initialBlocks }: { initialBlocks?: BlogContentBl
             pNode.setFormat(block.align)
           }
 
-          if (block.spans && block.spans.length > 0) {
+          if (block.spans) {
             for (const span of block.spans) {
               const normalizedText = span.text.replace(/\r\n/g, '\n')
               if (normalizedText === '\n') {
@@ -272,21 +272,6 @@ function InitialContentPlugin({ initialBlocks }: { initialBlocks?: BlogContentBl
                 if (span.italic) tNode.toggleFormat('italic')
                 pNode.append(tNode)
               }
-            }
-          } else if (block.text) {
-            const normalizedText = block.text.replace(/\r\n/g, '\n')
-            if (normalizedText.includes('\n')) {
-              const parts = normalizedText.split('\n')
-              parts.forEach((part, pIdx) => {
-                if (pIdx > 0) {
-                  pNode.append($createLineBreakNode())
-                }
-                if (part) {
-                  pNode.append($createTextNode(part))
-                }
-              })
-            } else {
-              pNode.append($createTextNode(block.text))
             }
           }
 
@@ -373,7 +358,6 @@ export function LexicalEditor({ initialContent, onChange }: LexicalEditorProps) 
             type: 'paragraph',
             align,
             spans: spans.length > 0 ? spans : [{ text: textContent }],
-            text: textContent,
           })
         }
       }

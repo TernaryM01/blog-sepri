@@ -106,7 +106,7 @@ export function PostEditor({ postToEdit, onSaveSuccess, onCancel }: PostEditorPr
         slug: slug.trim(),
         snippet: finalSnippet,
         cover_image_url: coverImageUrl,
-        content: content.length > 0 ? content : [{ type: 'paragraph', text: finalSnippet }],
+        content: content.length > 0 ? content : [{ type: 'paragraph', spans: [{ text: finalSnippet }] }],
         updated_at: new Date().toISOString(),
       }
 
