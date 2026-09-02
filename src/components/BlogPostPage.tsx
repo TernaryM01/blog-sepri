@@ -105,17 +105,46 @@ export function BlogPostPage({ slug, onNavigateHome, onSelectPost }: BlogPostPag
         >
           {block.spans && block.spans.length > 0
             ? block.spans.map((span, spanIdx) => {
-              let spanClasses = ''
-              if (span.bold) spanClasses += ' font-bold text-[#1a0f06]'
-              if (span.italic) spanClasses += ' italic'
+                const normalizedText = span.text.replace(/\r\n/g, '\n')
+                if (normalizedText === '\n') {
+                  return <br key={spanIdx} />
+                }
 
-              return (
-                <span key={spanIdx} className={spanClasses}>
-                  {span.text}
-                </span>
-              )
-            })
-            : block.text}
+                let spanClasses = ''
+                if (span.bold) spanClasses += ' font-bold text-[#1a0f06]'
+                if (span.italic) spanClasses += ' italic'
+
+                if (normalizedText.includes('\n')) {
+                  const segments = normalizedText.split('\n')
+                  return (
+                    <span key={spanIdx} className={spanClasses}>
+                      {segments.map((segment, segIdx) => (
+                        <span key={segIdx}>
+                          {segIdx > 0 && <br />}
+                          {segment}
+                        </span>
+                      ))}
+                    </span>
+                  )
+                }
+
+                return (
+                  <span key={spanIdx} className={spanClasses}>
+                    {span.text}
+                  </span>
+                )
+              })
+            : block.text
+              ? block.text
+                  .replace(/\r\n/g, '\n')
+                  .split('\n')
+                  .map((line, lIdx) => (
+                    <span key={lIdx}>
+                      {lIdx > 0 && <br />}
+                      {line}
+                    </span>
+                  ))
+              : null}
         </p>
       )
     }

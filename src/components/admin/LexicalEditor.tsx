@@ -3,6 +3,7 @@ import {
   $getRoot,
   $createParagraphNode,
   $createTextNode,
+  $createLineBreakNode,
   $getSelection,
   $isRangeSelection,
   $isElementNode,
@@ -249,13 +250,44 @@ function InitialContentPlugin({ initialBlocks }: { initialBlocks?: BlogContentBl
 
           if (block.spans && block.spans.length > 0) {
             for (const span of block.spans) {
-              const tNode = $createTextNode(span.text)
-              if (span.bold) tNode.toggleFormat('bold')
-              if (span.italic) tNode.toggleFormat('italic')
-              pNode.append(tNode)
+              const normalizedText = span.text.replace(/\r\n/g, '\n')
+              if (normalizedText === '\n') {
+                pNode.append($createLineBreakNode())
+              } else if (normalizedText.includes('\n')) {
+                const parts = normalizedText.split('\n')
+                parts.forEach((part, pIdx) => {
+                  if (pIdx > 0) {
+                    pNode.append($createLineBreakNode())
+                  }
+                  if (part) {
+                    const tNode = $createTextNode(part)
+                    if (span.bold) tNode.toggleFormat('bold')
+                    if (span.italic) tNode.toggleFormat('italic')
+                    pNode.append(tNode)
+                  }
+                })
+              } else {
+                const tNode = $createTextNode(span.text)
+                if (span.bold) tNode.toggleFormat('bold')
+                if (span.italic) tNode.toggleFormat('italic')
+                pNode.append(tNode)
+              }
             }
           } else if (block.text) {
-            pNode.append($createTextNode(block.text))
+            const normalizedText = block.text.replace(/\r\n/g, '\n')
+            if (normalizedText.includes('\n')) {
+              const parts = normalizedText.split('\n')
+              parts.forEach((part, pIdx) => {
+                if (pIdx > 0) {
+                  pNode.append($createLineBreakNode())
+                }
+                if (part) {
+                  pNode.append($createTextNode(part))
+                }
+              })
+            } else {
+              pNode.append($createTextNode(block.text))
+            }
           }
 
           root.append(pNode)
